@@ -3,20 +3,18 @@ import fnmatch
 import os
 from pygame import mixer
 
-# Initialize the mixer
 mixer.init()
 
-# Create the main window
+
 canvas = tk.Tk()  
 canvas.title("Music Player")
 canvas.geometry("600x800")
 canvas.config(bg="black")
 
-# Path and pattern for mp3 files
+
 rootpath = 'C:\\Users\\marti\\Desktop\\songs'
 pattern = '*.mp3'
 
-# Load button images
 prev_img = tk.PhotoImage(file="prev_img.png")
 next_img = tk.PhotoImage(file="next_img.png")
 stop_img = tk.PhotoImage(file="stop_img.png")
@@ -37,7 +35,7 @@ def play_next():
     next_song = next_song[0] + 1
 
     if next_song >= listBox.size():
-        next_song = 0  # Wrap around to the first song
+        next_song = 0  
 
     next_song_name = listBox.get(next_song)
     Label.config(text=next_song_name)
@@ -50,10 +48,10 @@ def play_next():
 
 def play_prev():
     prev_song = listBox.curselection()
-    prev_song = prev_song[0] - 1  # Correct the variable and decrease the index
+    prev_song = prev_song[0] - 1  
 
     if prev_song < 0:
-        prev_song = listBox.size() - 1  # Wrap around to the last song in the list
+        prev_song = listBox.size() - 1  
 
     prev_song_name = listBox.get(prev_song)
     Label.config(text=prev_song_name)
@@ -72,23 +70,23 @@ def pause_song():
         mixer.music.unpause()
         pauseButton['text'] = "pause"
 
-# Create a Listbox to show the songs
+
 listBox = tk.Listbox(canvas, fg='cyan', bg='black', width=100)
 listBox.pack(padx=15, pady=15)
 
-# Label to show the current song playing
+
 Label = tk.Label(canvas, text='', bg='black', fg='green', font=('ds-digital', 18))
 Label.pack(pady=15)
 
 top = tk.Frame(canvas, bg='black')
 top.pack(padx=10, pady=15, anchor='center')
 
-# Insert songs into the listbox
+
 for root, dirs, files in os.walk(rootpath):
     for filename in fnmatch.filter(files, pattern):
         listBox.insert('end', filename)
 
-# Create control buttons
+
 prevButton = tk.Button(canvas, text='prev', image=prev_img, bg='black', borderwidth=0, command=play_prev)
 prevButton.pack(pady=15, in_=top, side='left')
 
@@ -104,7 +102,6 @@ nextButton.pack(pady=15, in_=top, side='left')
 stopButton = tk.Button(canvas, text='stop', image=stop_img, bg='black', borderwidth=0, command=stop)
 stopButton.pack(pady=15, in_=top, side='left')
 
-# Start the main loop
 canvas.mainloop()
 
 
